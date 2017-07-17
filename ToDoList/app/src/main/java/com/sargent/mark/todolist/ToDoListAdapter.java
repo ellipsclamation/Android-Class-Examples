@@ -7,19 +7,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sargent.mark.todolist.data.Contract;
 import com.sargent.mark.todolist.data.ToDoItem;
 
-import java.util.ArrayList;
 
 /**
  * Created by mark on 7/4/17.
  */
 
-public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHolder> {
-
+public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHolder>{
     private Cursor cursor;
     private ItemClickListener listener;
     private String TAG = "todolistadapter";
@@ -46,7 +46,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     }
 
     public interface ItemClickListener {
-        void onItemClick(int pos, String description, String duedate, long id);
+        void onItemClick(int pos, String description, String duedate, String category, boolean isDone, long id);
     }
 
     public ToDoListAdapter(Cursor cursor, ItemClickListener listener) {
@@ -66,15 +66,30 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView descr;
         TextView due;
+        TextView displayCategory;
+        CheckBox displayIsDone;
         String duedate;
         String description;
+        String category;
+        Boolean isDone;
         long id;
 
 
         ItemHolder(View view) {
+            //added textview for category and checkbox for isDone
             super(view);
+            displayCategory = (TextView) view.findViewById(R.id.displayCategory);
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
+            displayIsDone = (CheckBox) view.findViewById(R.id.isDone);
+//            displayIsDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if(isChecked) {
+//
+//                    }
+//                }
+//            });
             view.setOnClickListener(this);
         }
 
@@ -85,16 +100,23 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             duedate = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE));
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
+            category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
+            //convert int to boolean
+            isDone = cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE)) > 0;
+            Log.d("test " + String.valueOf(cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE))), isDone.toString());
+
+            //displays category
+            displayCategory.setText(category);
             descr.setText(description);
             due.setText(duedate);
+            displayIsDone.setChecked(isDone);
             holder.itemView.setTag(id);
         }
 
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            listener.onItemClick(pos, description, duedate, id);
+            listener.onItemClick(pos, description, duedate, category, isDone, id);
         }
     }
-
 }

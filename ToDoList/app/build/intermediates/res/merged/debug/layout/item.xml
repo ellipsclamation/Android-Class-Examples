@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="To do description"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dueDate"
+        <TextView
+            android:id="@+id/displayCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To do category" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To do description"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/dueDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="06-04-2017"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/isDone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="06-04-2017"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:layout_weight="0.40"
+        android:onClick="onCheckboxClicked"/>
 
 </LinearLayout>
