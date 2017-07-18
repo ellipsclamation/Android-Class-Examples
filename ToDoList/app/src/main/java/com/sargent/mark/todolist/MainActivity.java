@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import com.sargent.mark.todolist.data.Contract;
 import com.sargent.mark.todolist.data.DBHelper;
 
-public class MainActivity extends AppCompatActivity implements AddToDoFragment.OnDialogCloseListener, UpdateToDoFragment.OnUpdateDialogCloseListener {
+public class MainActivity extends AppCompatActivity implements AddToDoFragment.OnDialogCloseListener, UpdateToDoFragment.OnUpdateDialogCloseListener, ToDoListAdapter.CheckboxClickListener {
 
     private RecyclerView rv;
     private FloatingActionButton button;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 UpdateToDoFragment frag = UpdateToDoFragment.newInstance(year, month, day, description, category, isDone, id);
                 frag.show(fm, "updatetodofragment");
             }
-        });
+        }, this);
 
         rv.setAdapter(adapter);
 
@@ -160,7 +160,11 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         adapter.swapCursor(getAllItems(db));
     }
 
-    public void onCheckboxClicked(View view) {
-
+    //interface from ToDoListAdapter which gets the state of checkbox and id and then updates the database
+    @Override
+    public void onUpdateIsDone(boolean isDone, long id) {
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE, isDone);
+        db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 }

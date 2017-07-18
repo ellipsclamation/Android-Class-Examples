@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sargent.mark.todolist.data.Contract;
@@ -20,6 +19,9 @@ import com.sargent.mark.todolist.data.ToDoItem;
  */
 
 public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHolder>{
+
+    private CheckboxClickListener mCheckboxClickListener;
+
     private Cursor cursor;
     private ItemClickListener listener;
     private String TAG = "todolistadapter";
@@ -49,9 +51,16 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         void onItemClick(int pos, String description, String duedate, String category, boolean isDone, long id);
     }
 
-    public ToDoListAdapter(Cursor cursor, ItemClickListener listener) {
+    //An interface to send the checkbox and id to the mainactivity
+    public interface CheckboxClickListener {
+        void onUpdateIsDone(boolean isDone, long id);
+    }
+
+    //added context from mainactivity to connect interface
+    public ToDoListAdapter(Cursor cursor, ItemClickListener listener, Context context) {
         this.cursor = cursor;
         this.listener = listener;
+        this.mCheckboxClickListener = (CheckboxClickListener) context;
     }
 
     public void swapCursor(Cursor newCursor){
@@ -82,14 +91,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
             displayIsDone = (CheckBox) view.findViewById(R.id.isDone);
-//            displayIsDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    if(isChecked) {
-//
-//                    }
-//                }
-//            });
             view.setOnClickListener(this);
         }
 
@@ -103,7 +104,6 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
             //convert int to boolean
             isDone = cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE)) > 0;
-            Log.d("test " + String.valueOf(cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE))), isDone.toString());
 
             //displays category
             displayCategory.setText(category);
@@ -111,6 +111,14 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             due.setText(duedate);
             displayIsDone.setChecked(isDone);
             holder.itemView.setTag(id);
+
+            //sends state of checkbox to interface when checkbox is clicked
+            displayIsDone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View v){
+                    mCheckboxClickListener.onUpdateIsDone(displayIsDone.isChecked(), id);
+                }
+            });
         }
 
         @Override
