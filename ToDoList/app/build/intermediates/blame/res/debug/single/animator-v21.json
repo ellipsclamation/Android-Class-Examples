@@ -1,9 +1,5 @@
 [
     {
-        "merged": "C:\\Users\\mark\\Desktop\\AndroidClass\\inclass\\ToDoList\\app\\build\\intermediates\\res\\merged\\debug\\animator-v21\\design_appbar_state_list_animator.xml",
-        "source": "C:\\Users\\mark\\.android\\build-cache\\714aa8b7bc8b4e35519217c99868c9466b53b607\\output\\res\\animator-v21\\design_appbar_state_list_animator.xml"
-    },
-    {
         "merged": "C:\\cs4540\\Android-Class-Examples\\ToDoList\\app\\build\\intermediates\\res\\merged\\debug\\animator-v21\\design_appbar_state_list_animator.xml",
         "source": "C:\\Users\\seppc_laptop\\.android\\build-cache\\75e4becf4b89fb6579e406a7604106bd86b5d314\\output\\res\\animator-v21\\design_appbar_state_list_animator.xml"
     }

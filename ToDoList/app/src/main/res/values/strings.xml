@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">ToDoList</string>
+    <string name="action_show">Show</string>
+    <string name="category_all">All</string>
+    <string name="category_home">Home</string>
+    <string name="category_work">Work</string>
+    <string name="category_other">Other</string>
     <string-array name="categories_array">
-        <item>Home</item>
-        <item>Work</item>
-        <item>Other</item>
+        <item>@string/category_home</item>
+        <item>@string/category_work</item>
+        <item>@string/category_other</item>
     </string-array>
 </resources>

@@ -3173,6 +3173,10 @@ containing a value of this type.
         public static final int showCustom=0x7f0e001c;
         public static final int showHome=0x7f0e001d;
         public static final int showTitle=0x7f0e001e;
+        public static final int show_all=0x7f0e00a8;
+        public static final int show_home=0x7f0e00a9;
+        public static final int show_other=0x7f0e00ab;
+        public static final int show_work=0x7f0e00aa;
         public static final int smallLabel=0x7f0e007b;
         public static final int snackbar_action=0x7f0e0080;
         public static final int snackbar_text=0x7f0e007f;
@@ -3288,6 +3292,10 @@ containing a value of this type.
         public static final int select_dialog_multichoice_material=0x7f04003c;
         public static final int select_dialog_singlechoice_material=0x7f04003d;
         public static final int support_simple_spinner_dropdown_item=0x7f04003e;
+        public static final int switch_item=0x7f04003f;
+    }
+    public static final class menu {
+        public static final int main_menu=0x7f0f0000;
     }
     public static final class mipmap {
         public static final int ic_launcher=0x7f030000;
@@ -3325,15 +3333,20 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with=0x7f070010;
         public static final int abc_shareactionprovider_share_with_application=0x7f070011;
         public static final int abc_toolbar_collapse_description=0x7f070012;
-        public static final int app_name=0x7f070021;
-        public static final int appbar_scrolling_view_behavior=0x7f070022;
-        public static final int bottom_sheet_behavior=0x7f070023;
-        public static final int character_counter_pattern=0x7f070024;
-        public static final int password_toggle_content_description=0x7f070025;
-        public static final int path_password_eye=0x7f070026;
-        public static final int path_password_eye_mask_strike_through=0x7f070027;
-        public static final int path_password_eye_mask_visible=0x7f070028;
-        public static final int path_password_strike_through=0x7f070029;
+        public static final int action_show=0x7f070021;
+        public static final int app_name=0x7f070022;
+        public static final int appbar_scrolling_view_behavior=0x7f070023;
+        public static final int bottom_sheet_behavior=0x7f070024;
+        public static final int category_all=0x7f070025;
+        public static final int category_home=0x7f070026;
+        public static final int category_other=0x7f070027;
+        public static final int category_work=0x7f070028;
+        public static final int character_counter_pattern=0x7f070029;
+        public static final int password_toggle_content_description=0x7f07002a;
+        public static final int path_password_eye=0x7f07002b;
+        public static final int path_password_eye_mask_strike_through=0x7f07002c;
+        public static final int path_password_eye_mask_visible=0x7f07002d;
+        public static final int path_password_strike_through=0x7f07002e;
         public static final int search_menu_title=0x7f070013;
         public static final int status_bar_notification_info_overflow=0x7f070014;
     }

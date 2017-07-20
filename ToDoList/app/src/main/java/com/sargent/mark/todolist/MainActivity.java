@@ -9,9 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -123,6 +127,19 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         );
     }
 
+    //SQLite query where category = argument
+    private Cursor getCategoryItems(SQLiteDatabase db, String argument) {
+        return db.query(
+                Contract.TABLE_TODO.TABLE_NAME,
+                null,
+                Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + "= ?",
+                new String[]{argument},
+                null,
+                null,
+                Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE
+        );
+    }
+
     private long addToDo(SQLiteDatabase db, String description, String duedate, String category, boolean isDone) {
         //puts category and isDone to database
         ContentValues cv = new ContentValues();
@@ -164,7 +181,45 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     @Override
     public void onUpdateIsDone(boolean isDone, long id) {
         ContentValues cv = new ContentValues();
-        cv.put(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE, isDone);
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_IS_DONE, isDone ? 1 : 0);
         db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
+    }
+
+    //show the categories you can pick from the menu button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.main_menu, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
+
+    //selecting a category will select from database where category = argument
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.show_all) {
+            cursor = getAllItems(db);
+            adapter.swapCursor(cursor);
+            return true;
+        }
+
+        if(id == R.id.show_home) {
+            cursor = getCategoryItems(db, "Home");
+            adapter.swapCursor(cursor);
+        }
+        if(id == R.id.show_work) {
+            cursor = getCategoryItems(db, "Work");
+            adapter.swapCursor(cursor);
+        }
+        if(id == R.id.show_other) {
+            cursor = getCategoryItems(db, "Other");
+            adapter.swapCursor(cursor);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
